@@ -16,7 +16,7 @@ where time is the number of minutes since midnight.
     ])
     // 'ġ$%Ś%ŕ'
 
-Parse the resulting `ŀj%ŕ` to return the original list.
+Parse the resulting "ġ$%Ś%ŕ" to return the original list.
 
     ot.parseWeek('ġ$%Ś%ŕ')
     // [ [ 540, 1020 ],
