@@ -14,11 +14,11 @@ where time is the number of minutes since midnight.
       [12 * 60, 17 * 60],
         null // closed
     ])
-    // 'ŀj%ŕ'
+    // 'ġ$%Ś%ŕ'
 
 Parse the resulting `ŀj%ŕ` to return the original list.
 
-    ot.parseWeek('ŀj%ŕ')
+    ot.parseWeek('ġ$%Ś%ŕ')
     // [ [ 540, 1020 ],
     //   [ 540, 1020 ],
     //   [ 540, 1020 ],
