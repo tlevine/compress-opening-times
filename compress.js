@@ -81,9 +81,9 @@ function toChar(x) {
   var secondBlock = 1 + 255 - 161
 
   if (x <= firstBlock) {
-    return String.fromCharChode(x + 33)
+    return String.fromCharCode(x + 33)
   } else if (x <= firstBlock + secondBlock) {
-    return String.fromCharChode(x + 161)
+    return String.fromCharCode(x + 161)
   }
 }
 
@@ -130,7 +130,13 @@ function serialize(repeats, openingMinutes, closingMinutes) {
 function check(command) {
   console.log(command, '->', eval(command))
 }
-check('compress6(1500)')
-check('compress6(60 * 24 + 1)')
-check('compress6(60 * 24)')
-check('decompress6(33)')
+check('compressTime(1500)')
+check('compressTime(60 * 24 + 1)')
+check('compressTime(60 * 24)')
+check('decompressTime(33)')
+check('toChar(42)')
+check('fromChar("K")')
+check('toChar(62)')
+check('fromChar("_")')
+check('toChar(182)')
+check('fromChar("ŗ")')
