@@ -224,31 +224,44 @@ function parseDays(raw) {
   }
 }
 
+function serializeWeek(days) {
+  if (days.length == 7){
+    return serializeDays(days)
+  } else {
+    throw('There must be exactly seven days.')
+  }
+}
+
+exports.serializeWeek = serializeWeek
+exports.parseWeek = parseDays
+
 function check(command) {
   console.log(command, '->', eval(command))
 }
-check('compressTime(1500)')
-check('compressTime(60 * 24 + 1)')
-check('compressTime(60 * 24)')
-check('decompressTime(33)')
-check('toChar(42)')
-check('fromChar("K")')
-check('toChar(62)')
-check('fromChar("_")')
-check('toChar(182)')
-check('fromChar("ŗ")')
-check('toChar(0)')
-check('to2Char(0)')
-check('to2Char(23422)')
-check('from2Char("ĜŐ")')
-check('serializeDay(2, 7.5 * 60, 19 * 60)')
-check('serializeDay(2, 450, 1140)')
-check('parseDay("Wď")')
-check('serializeDay(1, 450, 1140)')
-check('serializeDays([[450, 1140], [450, 1140]])')
-check('serializeDays([[450, 1140], [450, 1140], [450, 1140]])')
-check('serializeDays([[450, 1140], [450, 1140], [450, 1140], [450, 1140]])')
-check('serializeDays([[450, 1140], [450, 1140], [450, 1140], [450, 1140], [450, 1140], [450, 1260], [720, 1140]])')
-check('serializeDays([[450, 1140], [450, 1140], [450, 1140], [450, 1140], [450, 1140], [450, 24 * 60 + 1], [720, 1140]])')
-check('parseDays("Wď")')
-check('parseDays("ħĒ<ő@X")')
+function runChecks() {
+  check('compressTime(1500)')
+  check('compressTime(60 * 24 + 1)')
+  check('compressTime(60 * 24)')
+  check('decompressTime(33)')
+  check('toChar(42)')
+  check('fromChar("K")')
+  check('toChar(62)')
+  check('fromChar("_")')
+  check('toChar(182)')
+  check('fromChar("ŗ")')
+  check('toChar(0)')
+  check('to2Char(0)')
+  check('to2Char(23422)')
+  check('from2Char("ĜŐ")')
+  check('serializeDay(2, 7.5 * 60, 19 * 60)')
+  check('serializeDay(2, 450, 1140)')
+  check('parseDay("Wď")')
+  check('serializeDay(1, 450, 1140)')
+  check('serializeDays([[450, 1140], [450, 1140]])')
+  check('serializeDays([[450, 1140], [450, 1140], [450, 1140]])')
+  check('serializeDays([[450, 1140], [450, 1140], [450, 1140], [450, 1140]])')
+  check('serializeDays([[450, 1140], [450, 1140], [450, 1140], [450, 1140], [450, 1140], [450, 1260], [720, 1140]])')
+  check('serializeDays([[450, 1140], [450, 1140], [450, 1140], [450, 1140], [450, 1140], [450, 24 * 60 + 1], [720, 1140]])')
+  check('parseDays("Wď")')
+  check('parseDays("ħĒ<ő@X")')
+}
