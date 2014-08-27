@@ -30,16 +30,30 @@ function compress6 (minutes) {
 }
 
 function decompress6 (compressed) {
-  if (!contains(compressed, compression6Map.map(right))) {
+  if (compressed == 0) {
     return null
   } else {
     return left(compression6Map.filter(matches(right, compressed))[0])
   }
 }
 
+function compressRepeats (repeats, opening6, closing6) {
+  var openingFirst = repeats < 4
+  var repeats2 = repeats % 4
+  if (openingFirst) {
+    return [repeats2, opening6, closing6]
+  } else {
+    return [repeats2, closing6, opening6]
+  }
+}
+
+// Turn an int2, int6, and int6 into two characters
+function assemble (a2, b6, c6) {
+  
+}
+
 // 6-bit compression mapping
-compression6Map = [
-  [ 360, 0],
+var compression6Map = [
   [ 390, 1],
   [ 420, 2],
   [ 450, 3],
@@ -76,6 +90,44 @@ compression6Map = [
   [1530,34],
   [1560,35]
 ] 
+
+
+// All arguments must be integers.
+// 1 <= repeats <= 7
+// openingMinutes >= 0
+// closingMinutes >= 0
+function serialize(repeats, openingMinutes, closingMinutes) {
+  if (!(round(repeats) == repeats && round(openingMinutes) == openingMinutes) && round(closingMinutes) == closingMinutes) {
+    throw('All arguments must be integers.')
+  } else if (!(1 <= repeats && repeats <= 7)) {
+    throw('"repeats" must be between 1 and 7.')
+  } else if (openingMinutes < 0 || closingMinutes < 0) {
+    throw('Minutes must be at least zero.')
+  }
+
+  if (compress6(openingMinutes) == null) {
+    var opening6 = 0
+  } else {
+    var opening6 = compress6(openingMinutes)
+  }
+
+  if (compress6(closingMinutes) == null) {
+    var closing6 = 0
+  } else {
+    var closing6 = compress6(openingMinutes)
+  }
+
+  return assemble(compressRepeats(repeats, opening6, closing6))
+  
+
+  function round(x) {
+    if (x == null) {
+      return null
+    } else {
+      return Math.round(x)
+    }
+  }
+}
 
 function check(command) {
   console.log(command, '->', eval(command))
