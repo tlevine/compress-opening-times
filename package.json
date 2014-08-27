@@ -1,6 +1,6 @@
 {
   "name": "compress-opening-times",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Compress the schedule of the opening times of a store, office, &c.",
   "main": "compress.js",
   "scripts": {
