@@ -109,7 +109,7 @@ function from2Char (x) {
 // 1 <= repeats <= 7
 // openingMinutes >= 0
 // closingMinutes >= 0
-function serialize(repeats, openingMinutes, closingMinutes) {
+function serializeDay(repeats, openingMinutes, closingMinutes) {
   if (!(round(repeats) == repeats && round(openingMinutes) == openingMinutes) && round(closingMinutes) == closingMinutes) {
     throw('All arguments must be integers.')
   } else if (!(1 <= repeats && repeats <= 7)) {
@@ -122,9 +122,13 @@ function serialize(repeats, openingMinutes, closingMinutes) {
   var closing71 = compressTime(closingMinutes)
 
   if (opening71 == 0 || closing71 == 0) {
-    return toChar(0) + toChar(0)
+    return to2Char(0) + '(' + [repeats,openingMinutes,closingMinutes].join(',') + ')'
+  } else {
+    var a = repeats * (71 * 71)
+    var b = opening71 * 71
+    var c = closing71 * 1
+    return to2Char(a + b + c)
   }
-  
 
   function round(x) {
     if (x == null) {
@@ -133,6 +137,40 @@ function serialize(repeats, openingMinutes, closingMinutes) {
       return Math.round(x)
     }
   }
+}
+
+function parseDay(serialized) {
+  if (serialized.substring(0,2) == to2Char(0)) {
+    var args = serialized.match(/!!\(([0-9]+),([0-9]+),([0-9]+)\)/)
+    var repeats = 1 * args[1]
+    var openingMinutes = 1 * args[2]
+    var closingMinutes = 1 * args[3]
+  } else {
+    var x = from2Char(serialized)
+    console.log(x)
+
+    var c = x % 71
+    x -= c
+    console.log(x)
+
+    var b = x % (71 * 71)
+    x -= b * 71
+    console.log(x)
+
+    var a = x % (71 * 71 * 71)
+    x -= c * 71 * 71
+    console.log(x)
+
+    console.log(a, b, c)
+
+    var repeats = Math.floor(x / (71 * 71))
+    var opening71 = x - repeats
+    var closing71 = x - opening71 - closing71
+    console.log(repeats, opening71, closing71)
+    var openingMinutes = decompressTime(opening71)
+    var closingMinutes = decompressTime(closing71)
+  }
+  return [repeats, openingMinutes, closingMinutes]
 }
 
 function check(command) {
@@ -152,3 +190,7 @@ check('toChar(0)')
 check('to2Char(0)')
 check('to2Char(23422)')
 check('from2Char("ĜŐ")')
+check('serializeDay(2, 7.5 * 60, 19 * 60)')
+check('serializeDay(2, 450, 1140)')
+check('parseDay("Wď")')
+check('serializeDay(1, 450, 1140)')
