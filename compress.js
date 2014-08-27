@@ -118,6 +118,9 @@ function serializeDay(repeats, openingMinutes, closingMinutes) {
     throw('Minutes must be at least zero.')
   }
 
+  if (openingMinutes == null || closingMinutes == null) {
+    openingMinutes = closingMinutes = 12 * 60 // Equal to indicate closed
+  }
 
   var opening77 = compressTime(openingMinutes)
   var closing77 = compressTime(closingMinutes)
@@ -271,8 +274,7 @@ function runChecks() {
   check('serializeDays([[450, 1140], [450, 1140], [450, 1140], [450, 1140], [450, 1140], [450, 1260], [720, 1140]])')
   check('serializeDays([[450, 1140], [450, 1140], [450, 1140], [450, 1140], [450, 1140], [450, 24 * 60 + 1], [720, 1140]])')
   check('serializeDays([[450, 1140], [450, 1140], [450, 1140], [450, 1140], [450, 1140], null, null])')
-//check('parseDays("Wď")')
-//check('parseDays("ħĒ<ő@X")')
+  check('parseDays("ğĻE^")')
 }
 
 runChecks()
