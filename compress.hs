@@ -22,17 +22,19 @@ exactDiv a b
   | a `mod` b == 0 = Just $ a `div` b
   | otherwise = Nothing
 
-compressTime :: (Time -> Maybe Int) Time
-compressTime compressor (Time minutes) =
-  case compressor minutes of
-    Just result && result >= 0 && result <= 15 -> result
-    Just result -> Nothing
-    Nothing -> Nothing
-  where
-    compressor
+data Serialization = Compressed (Int, Int) | Notcompressed (Int, String)
 
-compressOpening = compressTime $ (720 - x) `exactDiv` 30
-compressClosing = compressTime $ (1500 - x) `exactDiv` 30
+compressTime :: Int -> Time -> Serialization
+compressTime days (Time minutes) =
+  case compress5 minutes of
+    Just result -> Compressed (days, result)
+    Nothing -> NotCompressed (days, show minutes)
+
+compress5 :: Time -> Maybe Int
+compress5 (Time minutes) = 
+
+decompress5 :: Int -> Time
+decompress5 compressed =
 
 --' Produce four bits.
 --' If no bits are on, the store is closed.
