@@ -114,7 +114,7 @@ function serialize(repeats, openingMinutes, closingMinutes) {
   var closing71 = compressTime(closingMinutes)
 
   if (opening71 == 0 || closing71 == 0) {
-    return 
+    return toChar(0) + toChar(0)
   }
   
 
@@ -140,3 +140,4 @@ check('toChar(62)')
 check('fromChar("_")')
 check('toChar(182)')
 check('fromChar("ŗ")')
+check('toChar(0)')
