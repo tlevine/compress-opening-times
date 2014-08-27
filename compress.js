@@ -161,13 +161,38 @@ function parseDay(serialized) {
     x -= a
   //console.log(x)
 
-    console.log(a, b, c)
+  //console.log(a, b, c)
     var repeats = a / (71 * 71)
     var openingMinutes = decompressTime(b / 71)
     var closingMinutes = decompressTime(c)
 
   }
   return [repeats, openingMinutes, closingMinutes]
+}
+
+function serializeDays(days) {
+  var daysIn = days.map(identity)
+  daysIn[0] = [{repeats:1, openingMinutes:days[0][0], closingMinutes:days[0][1]}]
+
+  return daysIn.reduce(clump).map(serializeClump).join('')
+
+  function identity(x) { return x }
+
+  function clump(a, b) {
+    var openingMinutes = b[0]
+    var closingMinutes = b[1]
+    yesterday = a[a.length-1]
+    if (openingMinutes == yesterday.openingMinutes && closingMinutes == yesterday.closingMinutes) {
+      yesterday.repeats += 1
+    } else {
+      a.push({repeats:1, openingMinutes: openingMinutes, closingMinutes: closingMinutes})
+    }
+    return a
+  }
+
+  function serializeClump(x) {
+    return serializeDay(x.repeats, x.openingMinutes, x.closingMinutes)
+  }
 }
 
 function check(command) {
@@ -191,3 +216,6 @@ check('serializeDay(2, 7.5 * 60, 19 * 60)')
 check('serializeDay(2, 450, 1140)')
 check('parseDay("Wď")')
 check('serializeDay(1, 450, 1140)')
+check('serializeDays([[450, 1140], [450, 1140]])')
+check('serializeDays([[450, 1140], [450, 1140], [450, 1140]])')
+check('serializeDays([[450, 1140], [450, 1140], [450, 1140], [450, 1140]])')
