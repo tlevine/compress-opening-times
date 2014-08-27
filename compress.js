@@ -195,6 +195,26 @@ function serializeDays(days) {
   }
 }
 
+function parseDays(raw) {
+  var rest = '' + raw
+
+  dayStrings = []
+  while (rest.length > 0) {
+    var today = rest.substr(0,2)
+    var rest = rest.substr(2)
+    
+    if (today == to2Char(0)) {
+      var endOfToday = rest.indexOf(')') + 1
+      var todayString = today + rest.substr(0, endOfToday)
+      rest = rest.substr(endOfToday)
+    } else {
+      var todayString = today
+    }
+    dayStrings.push(todayString)
+  }
+  return dayStrings.map(parseDay)
+}
+
 function check(command) {
   console.log(command, '->', eval(command))
 }
@@ -219,3 +239,4 @@ check('serializeDay(1, 450, 1140)')
 check('serializeDays([[450, 1140], [450, 1140]])')
 check('serializeDays([[450, 1140], [450, 1140], [450, 1140]])')
 check('serializeDays([[450, 1140], [450, 1140], [450, 1140], [450, 1140]])')
+check('parseDays("Wď")')
