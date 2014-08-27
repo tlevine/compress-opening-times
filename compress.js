@@ -30,7 +30,7 @@ function compress6 (minutes) {
 }
 
 function decompress6 (compressed) {
-  if (!contains(compressed, compression6Map.map(righft))) {
+  if (!contains(compressed, compression6Map.map(right))) {
     return null
   } else {
     return left(compression6Map.filter(matches(right, compressed))[0])
@@ -81,4 +81,6 @@ function check(command) {
   console.log(command, '->', eval(command))
 }
 check('compress6(1500)')
+check('compress6(60 * 24 + 1)')
+check('compress6(60 * 24)')
 check('decompress6(33)')
