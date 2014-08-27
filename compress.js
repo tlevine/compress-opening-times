@@ -154,21 +154,15 @@ function parseDay(serialized) {
     console.log(x)
 
     var b = x % (71 * 71)
-    x -= b * 71
+    x -= b
     console.log(x)
 
     var a = x % (71 * 71 * 71)
-    x -= c * 71 * 71
+    x -= a
     console.log(x)
 
     console.log(a, b, c)
 
-    var repeats = Math.floor(x / (71 * 71))
-    var opening71 = x - repeats
-    var closing71 = x - opening71 - closing71
-    console.log(repeats, opening71, closing71)
-    var openingMinutes = decompressTime(opening71)
-    var closingMinutes = decompressTime(closing71)
   }
   return [repeats, openingMinutes, closingMinutes]
 }
