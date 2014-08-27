@@ -30,7 +30,12 @@ compressTime days (Time minutes) =
     Just result -> Compressed (days, result)
     Nothing -> NotCompressed (days, show minutes)
 
-compress5 :: Time -> Maybe Int
+compress5 :: M.Map Time Int
+compress5 = M.fromList [ (Time 360, 0), (Time 390, 1), (Time 420, 2),
+                         (Time 450, 3), (Time 480, 4), (Time 510, 5),
+                         (Time 540, 6), (Time 570, 7), (Time 600, 8),
+                         (Time 630, 9), (Time 660,10), (Time 690,11),
+                         (Time 720,12), (Time 750,13), (Time 760,14),
 compress5 (Time rawMinutes)
   | rawMinutes < 0 = Nothing
   | remainingMinutes /= 0 = Nothing
