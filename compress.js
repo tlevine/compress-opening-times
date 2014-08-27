@@ -21,39 +21,24 @@ function matches(side, value) {
   }
 }
 
-function compress6 (minutes) {
-  if (!contains(minutes, compression6Map.map(left))) {
-    return null
+function compressTime (minutes) {
+  if (contains(minutes, timeMap.map(left))) {
+    return right(timeMap.filter(matches(left, minutes))[0])
   } else {
-    return right(compression6Map.filter(matches(left, minutes))[0])
+    return 0
   }
 }
 
-function decompress6 (compressed) {
+function decompressTime (compressed) {
   if (compressed == 0) {
-    return null
+    return 0
   } else {
-    return left(compression6Map.filter(matches(right, compressed))[0])
+    return left(timeMap.filter(matches(right, compressed))[0])
   }
 }
 
-function compressRepeats (repeats, opening6, closing6) {
-  var openingFirst = repeats < 4
-  var repeats2 = repeats % 4
-  if (openingFirst) {
-    return [repeats2, opening6, closing6]
-  } else {
-    return [repeats2, closing6, opening6]
-  }
-}
-
-// Turn an int2, int6, and int6 into two characters
-function assemble (a2, b6, c6) {
-  
-}
-
-// 6-bit compression mapping
-var compression6Map = [
+// 71-valued compression mapping
+var timeMap = [
   [ 390, 1],
   [ 420, 2],
   [ 450, 3],
@@ -91,6 +76,26 @@ var compression6Map = [
   [1560,35]
 ] 
 
+function toChar(x) {
+  var firstBlock = 1 + 126 - 33
+  var secondBlock = 1 + 255 - 161
+
+  if (x <= firstBlock) {
+    return String.fromCharChode(x + 33)
+  } else if (x <= firstBlock + secondBlock) {
+    return String.fromCharChode(x + 161)
+  }
+}
+
+function fromChar(x) {
+  var code = x.charCodeAt(0)
+
+  if (code >= 161) {
+    return code - 161
+  } else {
+    return code - 33
+  }
+}
 
 // All arguments must be integers.
 // 1 <= repeats <= 7
@@ -105,19 +110,12 @@ function serialize(repeats, openingMinutes, closingMinutes) {
     throw('Minutes must be at least zero.')
   }
 
-  if (compress6(openingMinutes) == null) {
-    var opening6 = 0
-  } else {
-    var opening6 = compress6(openingMinutes)
-  }
+  var opening71 = compressTime(openingMinutes)
+  var closing71 = compressTime(closingMinutes)
 
-  if (compress6(closingMinutes) == null) {
-    var closing6 = 0
-  } else {
-    var closing6 = compress6(openingMinutes)
+  if (opening71 == 0 || closing71 == 0) {
+    return 
   }
-
-  return assemble(compressRepeats(repeats, opening6, closing6))
   
 
   function round(x) {
