@@ -1,17 +1,29 @@
 Compress weekly opening time schedules.
 
-> var ot = require('./compress-opening-times')
-undefined
-> ot.serializeWeek([9 * 60, 17 * 60], [9 * 60, 17 * 60], [9 * 60, 17 * 60]])
-... 
-> ot.serializeWeek([9 * 60, 17 * 60], [9 * 60, 17 * 60], [9 * 60, 17 * 60])
-There must be exactly seven days.
-> ot.serializeWeek([9 * 60, 17 * 60], [9 * 60, 17 * 60], [9 * 60, 17 * 60], [9 * 60, 17 * 60], [9 * 60, 17 * 60], [9 * 60, 17 * 60], [12 * 60, 17 * 60])
-There must be exactly seven days.
-> ot.serializeWeek([9 * 60, 17 * 60], [9 * 60, 17 * 60], [9 * 60, 17 * 60], [9 * 60, 17 * 60], [9 * 60, 17 * 60], [9 * 60, 17 * 60], null)
-There must be exactly seven days.
-> ot.serializeWeek([9 * 60, 17 * 60], [9 * 60, 17 * 60], [9 * 60, 17 * 60], [9 * 60, 17 * 60], [9 * 60, 17 * 60], [9 * 60, 17 * 60], null])
-... 
-... 
-> ot.serializeWeek([[9 * 60, 17 * 60], [9 * 60, 17 * 60], [9 * 60, 17 * 60], [9 * 60, 17 * 60], [9 * 60, 17 * 60], [9 * 60, 17 * 60], null])
+    var ot = require('compress-opening-times')
+
+Serialize a list of pairs of opening and start times,
+where time is the number of minutes since midnight.
+
+    ot.serializeWeek([
+      [ 9 * 60, 17 * 60],
+      [ 9 * 60, 17 * 60],
+      [ 9 * 60, 17 * 60],
+      [ 9 * 60, 17 * 60],
+      [ 9 * 60, 17 * 60],
+      [12 * 60, 17 * 60],
+        null // closed
+    ])
+    // 'ŀj%ŕ'
+
+Parse the resulting `ŀj%ŕ` to return the original list.
+
+    ot.parseWeek('ŀj%ŕ')
+    // [ [ 540, 1020 ],
+    //   [ 540, 1020 ],
+    //   [ 540, 1020 ],
+    //   [ 540, 1020 ],
+    //   [ 540, 1020 ],
+    //   [ 720, 1020 ],
+    //   null ]
 

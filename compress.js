@@ -231,7 +231,11 @@ function parseDays(raw) {
   function expand(a, b){
     while (b[0] > 0) {
       b[0] -= 1
-      a.push([b[1], b[2]])
+      if (b[1] == null || b[2] == null) {
+        a.push(null)
+      } else {
+        a.push([b[1], b[2]])
+      }
     }
     return a
   }
@@ -277,4 +281,4 @@ function runChecks() {
   check('parseDays("ğĻE^")')
 }
 
-runChecks()
+// runChecks()
