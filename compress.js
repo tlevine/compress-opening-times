@@ -15,15 +15,25 @@ function left(pair) {
 function right(pair) {
   return pair[1]
 }
+function matches(side, value) {
+  return function(pair) {
+    return side(pair) == value
+  }
+}
 
 function compress6 (minutes) {
   if (!contains(minutes, compression6Map.map(left))) {
     return null
   } else {
-    return right(compression6Map.filter(whereLeftMatchesMinutes)[0])
+    return right(compression6Map.filter(matches(left, minutes))[0])
   }
-  function whereLeftMatchesMinutes(pair)
-    return left(pair) == minutes
+}
+
+function decompress6 (compressed) {
+  if (!contains(compressed, compression6Map.map(righft))) {
+    return null
+  } else {
+    return left(compression6Map.filter(matches(right, compressed))[0])
   }
 }
 
