@@ -212,7 +212,16 @@ function parseDays(raw) {
     }
     dayStrings.push(todayString)
   }
-  return dayStrings.map(parseDay)
+
+  return dayStrings.map(parseDay).reduce(expand, [])
+
+  function expand(a, b){
+    while (b[0] > 0) {
+      b[0] -= 1
+      a.push([b[1], b[2]])
+    }
+    return a
+  }
 }
 
 function check(command) {
