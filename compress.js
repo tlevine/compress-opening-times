@@ -97,6 +97,14 @@ function fromChar(x) {
   }
 }
 
+function to2Char (x) {
+  return toChar(Math.floor(x / 189)) + toChar(x % 189)
+}
+
+function from2Char (x) {
+  return fromChar(x[0]) * 189 + fromChar(x[1])
+}
+
 // All arguments must be integers.
 // 1 <= repeats <= 7
 // openingMinutes >= 0
@@ -141,3 +149,6 @@ check('fromChar("_")')
 check('toChar(182)')
 check('fromChar("ŗ")')
 check('toChar(0)')
+check('to2Char(0)')
+check('to2Char(23422)')
+check('from2Char("ĜŐ")')
