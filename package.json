@@ -1,0 +1,23 @@
+{
+  "name": "compress-opening-times",
+  "version": "0.0.1",
+  "description": "Compress the schedule of the opening times of a store, office, &c.",
+  "main": "compress.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tlevine/compress-opening-times.git"
+  },
+  "keywords": [
+    "compression",
+    "scheduling"
+  ],
+  "author": "Thomas Levine <_@thomaslevine.com>",
+  "license": "AGPL",
+  "bugs": {
+    "url": "https://github.com/tlevine/compress-opening-times/issues"
+  },
+  "homepage": "https://github.com/tlevine/compress-opening-times"
+}
