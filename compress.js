@@ -147,21 +147,24 @@ function parseDay(serialized) {
     var closingMinutes = 1 * args[3]
   } else {
     var x = from2Char(serialized)
-    console.log(x)
+  //console.log(x)
 
     var c = x % 71
     x -= c
-    console.log(x)
+  //console.log(x)
 
     var b = x % (71 * 71)
     x -= b
-    console.log(x)
+  //console.log(x)
 
     var a = x % (71 * 71 * 71)
     x -= a
-    console.log(x)
+  //console.log(x)
 
     console.log(a, b, c)
+    var repeats = a / (71 * 71)
+    var openingMinutes = decompressTime(b / 71)
+    var closingMinutes = decompressTime(c)
 
   }
   return [repeats, openingMinutes, closingMinutes]
