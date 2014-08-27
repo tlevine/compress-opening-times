@@ -76,3 +76,9 @@ compression6Map = [
   [1530,34],
   [1560,35]
 ] 
+
+function check(command) {
+  console.log(command, '->', eval(command))
+}
+check('compress6(1500)')
+check('decompress6(33)')
