@@ -1,1 +1,17 @@
 Compress weekly opening time schedules.
+
+> var ot = require('./compress-opening-times')
+undefined
+> ot.serializeWeek([9 * 60, 17 * 60], [9 * 60, 17 * 60], [9 * 60, 17 * 60]])
+... 
+> ot.serializeWeek([9 * 60, 17 * 60], [9 * 60, 17 * 60], [9 * 60, 17 * 60])
+There must be exactly seven days.
+> ot.serializeWeek([9 * 60, 17 * 60], [9 * 60, 17 * 60], [9 * 60, 17 * 60], [9 * 60, 17 * 60], [9 * 60, 17 * 60], [9 * 60, 17 * 60], [12 * 60, 17 * 60])
+There must be exactly seven days.
+> ot.serializeWeek([9 * 60, 17 * 60], [9 * 60, 17 * 60], [9 * 60, 17 * 60], [9 * 60, 17 * 60], [9 * 60, 17 * 60], [9 * 60, 17 * 60], null)
+There must be exactly seven days.
+> ot.serializeWeek([9 * 60, 17 * 60], [9 * 60, 17 * 60], [9 * 60, 17 * 60], [9 * 60, 17 * 60], [9 * 60, 17 * 60], [9 * 60, 17 * 60], null])
+... 
+... 
+> ot.serializeWeek([[9 * 60, 17 * 60], [9 * 60, 17 * 60], [9 * 60, 17 * 60], [9 * 60, 17 * 60], [9 * 60, 17 * 60], [9 * 60, 17 * 60], null])
+

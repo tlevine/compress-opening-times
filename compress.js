@@ -37,7 +37,7 @@ function decompressTime (compressed) {
   }
 }
 
-// 71-valued compression mapping
+// 77-valued compression mapping
 var timeMap = [
   [ 390, 1],
   [ 420, 2],
@@ -118,15 +118,18 @@ function serializeDay(repeats, openingMinutes, closingMinutes) {
     throw('Minutes must be at least zero.')
   }
 
-  var opening71 = compressTime(openingMinutes)
-  var closing71 = compressTime(closingMinutes)
 
-  if (opening71 == 0 || closing71 == 0) {
+  var opening77 = compressTime(openingMinutes)
+  var closing77 = compressTime(closingMinutes)
+
+  if (opening77 == 0 || closing77 == 0) {
+    // Weird time
     return to2Char(0) + '(' + [repeats,openingMinutes,closingMinutes].join(',') + ')'
   } else {
-    var a = repeats * (71 * 71)
-    var b = opening71 * 71
-    var c = closing71 * 1
+    // Normal time
+    var a = (repeats - 1) * (77 * 77)
+    var b = opening77 * 77
+    var c = closing77 * 1
     return to2Char(a + b + c)
   }
 
@@ -149,40 +152,47 @@ function parseDay(serialized) {
     var x = from2Char(serialized)
   //console.log(x)
 
-    var c = x % 71
+    var c = x % 77
     x -= c
   //console.log(x)
 
-    var b = x % (71 * 71)
+    var b = x % (77 * 77)
     x -= b
   //console.log(x)
 
-    var a = x % (71 * 71 * 71)
+    var a = x % (77 * 77 * 77)
     x -= a
   //console.log(x)
 
   //console.log(a, b, c)
-    var repeats = a / (71 * 71)
-    var openingMinutes = decompressTime(b / 71)
+    var repeats = (a / (77 * 77)) + 1
+    var openingMinutes = decompressTime(b / 77)
     var closingMinutes = decompressTime(c)
 
   }
-  return [repeats, openingMinutes, closingMinutes]
+  if (openingMinutes == closingMinutes) {
+    // Closed
+    return [repeats, null, null]
+  } else {
+    return [repeats, openingMinutes, closingMinutes]
+  }
 }
 
 function serializeDays(days) {
   var daysIn = days.map(identity)
-  daysIn[0] = [{repeats:1, openingMinutes:days[0][0], closingMinutes:days[0][1]}]
 
-  return daysIn.reduce(clump).map(serializeClump).join('')
+  return daysIn.reduce(clump, []).map(serializeClump).join('')
 
   function identity(x) { return x }
 
   function clump(a, b) {
+    if (b == null) {
+      b = [null,null]
+    }
     var openingMinutes = b[0]
     var closingMinutes = b[1]
     yesterday = a[a.length-1]
-    if (openingMinutes == yesterday.openingMinutes && closingMinutes == yesterday.closingMinutes) {
+    if (a.length > 0 && openingMinutes == yesterday.openingMinutes && closingMinutes == yesterday.closingMinutes) {
       yesterday.repeats += 1
     } else {
       a.push({repeats:1, openingMinutes: openingMinutes, closingMinutes: closingMinutes})
@@ -255,13 +265,14 @@ function runChecks() {
   check('from2Char("ĜŐ")')
   check('serializeDay(2, 7.5 * 60, 19 * 60)')
   check('serializeDay(2, 450, 1140)')
-  check('parseDay("Wď")')
+//check('parseDay("Wď")')
   check('serializeDay(1, 450, 1140)')
-  check('serializeDays([[450, 1140], [450, 1140]])')
-  check('serializeDays([[450, 1140], [450, 1140], [450, 1140]])')
   check('serializeDays([[450, 1140], [450, 1140], [450, 1140], [450, 1140]])')
   check('serializeDays([[450, 1140], [450, 1140], [450, 1140], [450, 1140], [450, 1140], [450, 1260], [720, 1140]])')
   check('serializeDays([[450, 1140], [450, 1140], [450, 1140], [450, 1140], [450, 1140], [450, 24 * 60 + 1], [720, 1140]])')
-  check('parseDays("Wď")')
-  check('parseDays("ħĒ<ő@X")')
+  check('serializeDays([[450, 1140], [450, 1140], [450, 1140], [450, 1140], [450, 1140], null, null])')
+//check('parseDays("Wď")')
+//check('parseDays("ħĒ<ő@X")')
 }
+
+runChecks()
