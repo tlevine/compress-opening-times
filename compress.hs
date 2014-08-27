@@ -31,7 +31,16 @@ compressTime days (Time minutes) =
     Nothing -> NotCompressed (days, show minutes)
 
 compress5 :: Time -> Maybe Int
-compress5 (Time minutes) = 
+compress5 (Time rawMinutes)
+  | rawMinutes < 0 = Nothing
+  | remainingMinutes /= 0 = Nothing
+  | hours >= 7 && hours < 15 = compressOpening hours halfHours
+  | hours >= 16 && hours < 26 = 1 + (compressOpening 14 1) + (hours - 16) * 2 + halfHours
+  where
+    compressOpening theHours theHalfHours = 0 + (theHours - 7) * 2 + theHalfHours
+    hours = rawMinutes `div` 60
+    halfHours = (rawMinutes - (hours * 60)) `div` 30
+    remainingMinutes = (rawMinutes - (hours * 60) - (halfHours * 30))
 
 decompress5 :: Int -> Time
 decompress5 compressed =
